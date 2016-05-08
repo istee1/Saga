@@ -45,16 +45,16 @@
 
         gallery: function(){
             if( $('p a:not(:only-child) img').closest('p').length === 0 
-                && $('p img:not(:only-child)').closest('p').length !== 0){
+                && $('p img:not(:only-child)').closest('p').length === 0){
                 return;
             }
 
-            this.getScript('/assets/js/helper/imagesloaded.pkgd.min.js').then(function() {
+            this.getScript('/assets/js/helper/imagesloaded.pkgd.min.js').then($.proxy(function() {
                 $('p a:not(:only-child) img').closest('p').addClass('gallery');
                 $('p img:not(:only-child)').closest('p').addClass('gallery');
                 $('.gallery').imagesLoaded($.proxy(this.onGallery, this));
                 $(window).resize($.proxy(this.onGallery, this));
-            });
+            }, this));
         },
 
         onGallery: function(){
@@ -114,8 +114,23 @@
             }).fluidbox({
                 closeTrigger: [
                     { selector: '#fluidbox-overlay', event: 'click'         },
-                    { selector: 'window',            event: 'resize scroll' }
+                    { selector: 'window',            event: 'resize scroll' },
+                    { selector: 'document',					 event: 'keyup',        keyCode: 27 }
                 ]
+            });
+
+            $('body').on('keyup', function(e) {
+              if ($('.fluidbox-opened').length === 0)
+                return;
+              if (e.keyCode == 37 || e.keyCode == 39) {
+                var $target = $('.fluidbox-opened')[e.keyCode == 37 ? 'prev' : 'next']();
+                if (!$target)
+                  return;
+                $('.fluidbox-opened').trigger('click');
+                setTimeout(function() {
+                  $target.trigger('click');
+                }, 300);
+              }
             });
         },
 

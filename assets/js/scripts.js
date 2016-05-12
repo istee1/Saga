@@ -113,9 +113,9 @@
                 return $(this).attr('href').match(/\.(jpeg|jpg|png|gif)/i);
             }).fluidbox({
                 closeTrigger: [
-                    { selector: '#fluidbox-overlay', event: 'click'         },
-                    { selector: 'window',            event: 'resize scroll' },
-                    { selector: 'document',					 event: 'keyup',        keyCode: 27 }
+                    { selector: '#fluidbox-overlay', event: 'click'                     },
+                    { selector: 'window',            event: 'resize scroll'             },
+                    { selector: 'document',          event: 'keyup',        keyCode: 27 }
                 ]
             });
 
